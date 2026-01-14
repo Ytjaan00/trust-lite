@@ -1,0 +1,33 @@
+[
+  {
+    "id": "startup-a",
+    "name": "Startup A",
+    "short": "SaaS for freelancers",
+    "rating": 4.8,
+    "verified": true,
+    "proof_url": "https://example.com/proof-startup-a",
+    "meta": "Revenue: $5,000 MRR (self-declared)",
+    "logo": ""
+  },
+  {
+    "id": "shop-b",
+    "name": "Shop B",
+    "short": "Local grocery",
+    "rating": 4.5,
+    "verified": false,
+    "proof_url": "",
+    "meta": "Reviews: 120 (Google)",
+    "logo": ""
+  },
+  {
+    "id": "dev-studio",
+    "name": "Dev Studio",
+    "short": "Web dev agency",
+    "rating": 4.2,
+    "verified": false,
+    "proof_url": "",
+    "meta": "Clients: 30",
+    "logo": ""
+  }
+]
+
