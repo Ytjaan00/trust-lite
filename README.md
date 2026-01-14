@@ -1,1 +1,1 @@
-# pricing-iq-lite
+# trust-lite
