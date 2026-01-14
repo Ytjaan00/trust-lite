@@ -1,327 +1,64 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="hi">
 <head>
-<meta charset="utf-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1"/>
-<title>Pricing IQ Pro — CRM, Analyzer, Invoice</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-<style>
-:root{--bg:#061018;--card:#0f1724;--muted:#9aa4b2;--accent:#6EE7B7;--gold:#ffd166;--radius:12px}
-*{box-sizing:border-box}
-body{margin:0;background:linear-gradient(180deg,#02060a,var(--bg));color:#e6eef8;font-family:Inter,system-ui,Arial;padding:14px}
-.container{max-width:1100px;margin:0 auto}
-.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-.logo{width:56px;height:56px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--gold));display:flex;align-items:center;justify-content:center;font-weight:800;color:#061018}
-.title h1{margin:0;font-size:18px}
-.muted{color:var(--muted);font-size:13px}
-.grid{display:grid;grid-template-columns:1fr 420px;gap:16px}
-.card{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));border-radius:var(--radius);padding:12px;border:1px solid rgba(255,255,255,0.03)}
-label{display:block;color:var(--muted);font-size:13px;margin-top:8px;margin-bottom:6px}
-input,select,textarea{width:100%;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:rgba(255,255,255,0.02);color:inherit;font-size:14px}
-.row{display:flex;gap:8px}
-.btn{background:linear-gradient(90deg,var(--accent),var(--gold));border:0;padding:10px 12px;border-radius:10px;color:#061018;font-weight:700;cursor:pointer}
-.small{padding:8px 10px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);cursor:pointer}
-.result{margin-top:12px;padding:10px;border-radius:10px;background:rgba(255,255,255,0.01);border:1px solid rgba(255,255,255,0.02)}
-.previewCard{width:360px;height:420px;padding:14px;border-radius:12px;background:linear-gradient(180deg,#071018,#0b1220);display:flex;flex-direction:column;justify-content:space-between}
-.tag{background:rgba(255,255,255,0.02);padding:6px 8px;border-radius:8px;font-size:12px;color:var(--muted)}
-.footer{margin-top:12px;text-align:center;color:var(--muted);font-size:13px}
-@media (max-width:900px){.grid{grid-template-columns:1fr}.logo{display:none}}
-.client-list{max-height:220px;overflow:auto;margin-top:8px}
-.client-item{display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px;border:1px solid rgba(255,255,255,0.02);margin-bottom:8px}
-.small-tag{font-size:12px;color:var(--muted);padding:4px 6px;border-radius:6px;background:rgba(255,255,255,0.01)}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TrustMR‑Lite</title>
+  <meta name="description" content="Ultra‑light trust & reputation explorer (client‑side only)">
+  <style>
+    :root{
+      --bg:#0b0f14;--card:#121826;--text:#e6e9ef;--muted:#9aa3b2;--accent:#4f8cff;--ok:#22c55e;--warn:#f59e0b;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial;background:var(--bg);color:var(--text)}
+    header{padding:16px 14px;border-bottom:1px solid #1f2937}
+    h1{margin:0;font-size:20px}
+    .wrap{max-width:980px;margin:0 auto;padding:14px}
+    .search{display:flex;gap:10px}
+    input{flex:1;padding:12px;border-radius:10px;border:1px solid #1f2937;background:#0e1420;color:var(--text)}
+    button{padding:12px 14px;border-radius:10px;border:0;background:var(--accent);color:#fff;font-weight:600}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:14px}
+    .card{background:var(--card);border:1px solid #1f2937;border-radius:14px;padding:12px}
+    .row{display:flex;align-items:center;justify-content:space-between;gap:8px}
+    .name{font-weight:700}
+    .badge{font-size:12px;padding:4px 8px;border-radius:999px}
+    .v{background:rgba(34,197,94,.15);color:var(--ok)}
+    .u{background:rgba(245,158,11,.15);color:var(--warn)}
+    .meta{font-size:12px;color:var(--muted);margin-top:6px}
+    .rate{font-weight:700}
+    footer{opacity:.7;text-align:center;font-size:12px;padding:18px}
+  </style>
 </head>
 <body>
-<div class="container">
-  <div class="header">
-    <div style="display:flex;gap:12px;align-items:center">
-      <div class="logo">IQ</div>
-      <div class="title"><h1>Pricing IQ Pro</h1><div class="muted">CRM • Link Analyzer • Invoice • Calls (Jitsi)</div></div>
+  <header class="wrap">
+    <h1>TrustMR‑Lite</h1>
+    <p style="margin:6px 0 0;color:var(--muted);font-size:13px">Instant trust signals • Zero backend • Phone‑friendly</p>
+  </header>
+
+  <main class="wrap">
+    <div class="search">
+      <input id="q" placeholder="Search brand / project / startup" />
+      <button onclick="render()">Search</button>
     </div>
-    <div class="tag">Offline-first • Free • No server</div>
-  </div>
+    <section id="list" class="grid"></section>
+  </main>
 
-  <div class="grid">
-    <!-- LEFT: Forms and CRM -->
-    <div>
-      <div class="card">
-        <div><strong>1) Price Suggestion</strong></div>
-        <label>Service / Skill</label><input id="skill" placeholder="उदा: Web Design">
-        <div class="row">
-          <div style="flex:1"><label>Experience (साल)</label><input id="exp" type="number" value="1"></div>
-          <div style="flex:1"><label>Country</label><select id="country"><option value="IN">India</option><option value="US">USA</option><option value="AE">UAE</option><option value="GB">UK</option><option value="OTHER">Other</option></select></div>
-        </div>
-        <label>Project Type</label><select id="projType"><option value="hourly">Hourly</option><option value="fixed">Fixed</option></select>
-        <div class="row">
-          <div style="flex:1"><label>Estimated Hours</label><input id="hours" type="number" value="10"></div>
-          <div style="flex:1"><label>Complexity</label><select id="complexity"><option value="1">Low</option><option value="1.25">Medium</option><option value="1.6">High</option></select></div>
-        </div>
-        <div style="display:flex;gap:8px;margin-top:8px"><button class="btn" id="calcBtn">Get Suggestion</button><button class="small" id="saveProfile">Save Profile</button><button class="small" id="clearProfile">Clear</button></div>
-
-        <div id="suggestBox" class="result" style="display:none">
-          <div style="font-size:18px;font-weight:700" id="priceText">—</div>
-          <div class="muted" id="rangeText">—</div>
-          <div style="margin-top:8px" id="proposalText"></div>
-          <div style="display:flex;gap:8px;margin-top:10px"><button class="btn" id="copyProposal">Copy Proposal</button><button class="small" id="exportCard">Export Card</button></div>
-        </div>
-      </div>
-
-      <div class="card" style="margin-top:12px">
-        <div style="display:flex;justify-content:space-between;align-items:center"><strong>2) Quick Invoice</strong><div class="small-tag">Print / PDF</div></div>
-        <label>Client Name</label><input id="clientName" placeholder="Client">
-        <label>Item Description</label><input id="itemDesc" placeholder="Service">
-        <div class="row">
-          <div style="flex:1"><label>Amount</label><input id="itemAmt" type="number" value="0"></div>
-          <div style="flex:1"><label>Tax %</label><input id="tax" type="number" value="0"></div>
-        </div>
-        <div style="display:flex;gap:8px;margin-top:8px"><button class="btn" id="genInvoice">Generate Invoice</button><button class="small" id="saveInvoice">Save Invoice</button></div>
-        <div id="invoicePreview" style="margin-top:10px"></div>
-      </div>
-
-      <div class="card" style="margin-top:12px">
-        <div><strong>3) CRM — Clients / Leads</strong></div>
-        <label>Contact Name</label><input id="contactName" placeholder="Name">
-        <label>Phone / Email</label><input id="contactContact" placeholder="Phone or Email">
-        <label>Notes</label><textarea id="contactNotes" rows="3" placeholder="Notes"></textarea>
-        <div style="display:flex;gap:8px;margin-top:8px"><button class="btn" id="addContact">Add Contact</button><button class="small" id="clearContacts">Clear All</button></div>
-
-        <div class="client-list" id="clientList"></div>
-      </div>
-
-      <div class="card" style="margin-top:12px">
-        <div><strong>4) Link Analyzer (Free)</strong></div>
-        <label>Paste URL (website / youtube / insta)</label><input id="anUrl" placeholder="https://example.com">
-        <div style="display:flex;gap:8px;margin-top:8px"><button class="btn" id="analyzeBtn">Analyze</button><button class="small" id="manualMeta">Manual meta</button></div>
-        <div id="anResult" style="margin-top:10px"></div>
-        <div class="muted" style="margin-top:8px;font-size:13px">Note: Uses free proxy (AllOrigins). कुछ साइटें blocked हो सकती हैं — तब manual paste कर लें।</div>
-      </div>
-    </div>
-
-    <!-- RIGHT: Preview / Charts / Jitsi -->
-    <div>
-      <div class="card">
-        <div style="display:flex;justify-content:space-between;align-items:center"><div><div class="muted">Live Card</div><div style="font-weight:700" id="pcTitle">No suggestion yet</div></div><div class="small-tag" id="pcDate">—</div></div>
-        <div style="margin-top:10px;display:flex;justify-content:center"><div class="previewCard" id="previewCard"><div><div style="font-weight:700;color:var(--accent)" id="pcPrice">—</div><div style="height:8px"></div><div id="pcMain" style="color:#dfe9f2"></div></div><div style="display:flex;justify-content:space-between;align-items:center"><div class="muted">Halal • Privacy</div><div class="muted" id="pcFooter">Pricing IQ</div></div></div></div>
-        <div style="display:flex;gap:8px;margin-top:10px"><button class="small" id="shareText">Copy Share Text</button><button class="small" id="openJitsi">Open Jitsi Meet</button></div>
-      </div>
-
-      <div class="card" style="margin-top:12px">
-        <div style="display:flex;justify-content:space-between;align-items:center"><strong>Dashboard</strong><div class="muted">Quick stats</div></div>
-        <canvas id="dashChart" style="width:100%;height:200px;margin-top:8px"></canvas>
-        <div style="margin-top:8px;display:flex;gap:8px"><div class="small-tag" id="statClients">Clients: 0</div><div class="small-tag" id="statInvoices">Invoices: 0</div></div>
-      </div>
-
-      <div class="card" style="margin-top:12px">
-        <div class="muted">Tips</div>
-        <ul style="padding-left:18px;margin-top:8px;color:var(--muted)">
-          <li>Share pricing cards to WhatsApp/Telegram — organic growth</li>
-          <li>Use saved profiles to re-calculate fast</li>
-          <li>For cross-device sync later: enable Firebase (optional)</li>
-        </ul>
-      </div>
-
-      <div class="footer muted">Made for mobile • No signup required • Data stored locally</div>
-    </div>
-
-  </div> <!-- grid -->
-</div>
-
-<!-- libs -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+  <footer>Client‑side demo • Data from data.json</footer>
 
 <script>
-/* ----------------- Pricing logic (same as before, simple heuristic) ----------------- */
-const baseByCountry = {'IN':300,'US':25,'AE':40,'PK':200,'GB':20,'OTHER':10};
-const currencySymbol = {'IN':'₹','US':'$','AE':'د.إ','PK':'₨','GB':'£','OTHER':'$'};
-function toNum(v){return Number(v)||0;}
-function computeSuggestion(){
-  const skill = document.getElementById('skill').value.trim() || 'Service';
-  const exp = Math.max(0,toNum(document.getElementById('exp').value));
-  const country = document.getElementById('country').value;
-  const projType = document.getElementById('projType').value;
-  const hours = Math.max(0,toNum(document.getElementById('hours').value));
-  const complexity = parseFloat(document.getElementById('complexity').value)||1;
-  let base = baseByCountry[country]||baseByCountry['OTHER'];
-  const expMultiplier = 1 + (Math.min(exp,10)*0.05);
-  const s = skill.toLowerCase();
-  let skillPremium=1;
-  if(s.includes('design')||s.includes('dev')||s.includes('engineer')) skillPremium=1.25;
-  if(s.includes('logo')||s.includes('brand')) skillPremium=1.15;
-  if(s.includes('write')||s.includes('content')||s.includes('copy')) skillPremium=0.9;
-  if(s.includes('seo')||s.includes('ads')) skillPremium=1.05;
-  let hourly = Math.round(base * expMultiplier * skillPremium * complexity);
-  const symbol = currencySymbol[country]||'$';
-  let fixedLow = hourly * Math.max(1, hours*0.7);
-  let fixedHigh = hourly * Math.max(1, hours*1.3);
-  let displayText = '';
-  if(projType==='hourly') displayText = `${symbol}${hourly} / hour — est ${symbol}${(hourly*hours).toLocaleString()}`;
-  else displayText = `Fixed: ${symbol}${Math.round(fixedLow)} — ${symbol}${Math.round(fixedHigh)}`;
-  const proposal = `Hi, I can deliver ${skill} for ${projType==='hourly'? symbol+hourly+'/hr': symbol+Math.round((fixedLow+fixedHigh)/2)}. Timeline: ___ days. Reply to start.`;
-  return {skill,hourly,symbol,hours,fixedLow,fixedHigh,displayText,proposal};
-}
-
-/* ----------------- UI hooks ----------------- */
-const calcBtn = document.getElementById('calcBtn');
-const suggestBox = document.getElementById('suggestBox');
-const priceText = document.getElementById('priceText');
-const rangeText = document.getElementById('rangeText');
-const proposalText = document.getElementById('proposalText');
-const pcMain = document.getElementById('pcMain');
-const pcPrice = document.getElementById('pcPrice');
-const pcTitle = document.getElementById('pcTitle');
-const pcDate = document.getElementById('pcDate');
-
-calcBtn.addEventListener('click', ()=>{
-  const o = computeSuggestion();
-  suggestBox.style.display='block';
-  priceText.textContent = o.displayText;
-  rangeText.textContent = `Range: ${o.symbol}${o.fixedLow.toLocaleString()} — ${o.symbol}${o.fixedHigh.toLocaleString()}`;
-  proposalText.innerHTML = `<div style="color:var(--muted)">${o.proposal}</div>`;
-  pcMain.textContent = o.displayText;
-  pcPrice.textContent = o.displayText;
-  pcTitle.textContent = o.skill;
-  pcDate.textContent = new Date().toLocaleDateString();
-  // save last suggestion locally
-  localStorage.setItem('lastSuggestion', JSON.stringify(o));
-  updateStats();
-});
-document.getElementById('copyProposal').addEventListener('click', ()=>{
-  navigator.clipboard.writeText(proposalText.innerText||'').then(()=>alert('Proposal copied'));
-});
-document.getElementById('exportCard').addEventListener('click', async ()=>{
-  const node = document.getElementById('previewCard');
-  const c = await html2canvas(node, {scale:2, backgroundColor:null});
-  const link = document.createElement('a'); link.download='pricing-card.png'; link.href=c.toDataURL('image/png'); link.click();
-});
-
-/* ----------------- Invoice ----------------- */
-document.getElementById('genInvoice').addEventListener('click', ()=>{
-  const client = document.getElementById('clientName').value||'Client';
-  const desc = document.getElementById('itemDesc').value||'Service';
-  const amt = toNum(document.getElementById('itemAmt').value);
-  const tax = toNum(document.getElementById('tax').value);
-  if(!amt){ alert('Enter amount'); return; }
-  const taxAmt = Math.round((amt*tax)/100);
-  const total = amt + taxAmt;
-  const invNum = 'IQ-'+Date.now().toString().slice(-6);
-  const date = new Date().toLocaleDateString();
-  const html = `<div style="padding:16px;font-family:Inter,Arial;color:#061018;">
-    <div style="display:flex;justify-content:space-between"><div><h2>Invoice</h2><div>Invoice #: ${invNum}</div></div><div style="text-align:right"><div><strong>From:</strong> Pricing IQ</div></div></div><hr/>
-    <div><strong>Bill To:</strong> ${escapeHtml(client)}</div>
-    <table style="width:100%;margin-top:8px;border-collapse:collapse">
-      <tr style="background:#f6f6f6"><td style="padding:8px;border:1px solid #ddd">Description</td><td style="padding:8px;border:1px solid #ddd">Amount</td></tr>
-      <tr><td style="padding:8px;border:1px solid #ddd">${escapeHtml(desc)}</td><td style="padding:8px;border:1px solid #ddd">${amt}</td></tr>
-      <tr><td style="padding:8px;border:1px solid #ddd">Tax (${tax}%)</td><td style="padding:8px;border:1px solid #ddd">${taxAmt}</td></tr>
-      <tr><td style="padding:8px;border:1px solid #ddd"><strong>Total</strong></td><td style="padding:8px;border:1px solid #ddd"><strong>${total}</strong></td></tr>
-    </table><div style="margin-top:10px">Date: ${date}</div>
-    <div style="margin-top:12px"><button onclick="window.print()" style="padding:8px 10px;border-radius:8px;background:#6EE7B7;border:0;cursor:pointer">Print / Save as PDF</button></div></div>`;
-  document.getElementById('invoicePreview').innerHTML = html;
-  // save invoice record locally
-  const arr = JSON.parse(localStorage.getItem('invoices')||'[]');
-  arr.unshift({client:client,desc:desc,amt:amt,tax:tax,date:new Date().toISOString()});
-  localStorage.setItem('invoices', JSON.stringify(arr));
-  updateStats();
-});
-
-/* ----------------- CRM (localStorage) ----------------- */
-function loadClients(){
-  return JSON.parse(localStorage.getItem('clients')||'[]');
-}
-function saveClients(arr){ localStorage.setItem('clients', JSON.stringify(arr)); }
-function renderClients(){
-  const list = document.getElementById('clientList');
-  list.innerHTML='';
-  const arr = loadClients();
-  if(!arr.length){ list.innerHTML='<div class="muted">No contacts yet.</div>'; return; }
-  arr.forEach((c,i)=>{
-    const div = document.createElement('div'); div.className='client-item';
-    div.innerHTML = `<div style="min-width:0"><strong style="display:block">${escapeHtml(c.name)}</strong><div class="muted" style="font-size:13px">${escapeHtml(c.contact)}</div></div><div style="display:flex;gap:6px"><button class="small" data-act="view" data-i="${i}">View</button><button class="small" data-act="del" data-i="${i}">Del</button></div>`;
-    list.appendChild(div);
+let DATA=[];
+fetch('data.json').then(r=>r.json()).then(d=>{DATA=d;render();});
+function render(){
+  const q=(document.getElementById('q').value||'').toLowerCase();
+  const el=document.getElementById('list'); el.innerHTML='';
+  DATA.filter(x=>x.name.toLowerCase().includes(q)).forEach(x=>{
+    const c=document.createElement('div'); c.className='card';
+    c.innerHTML=`<div class="row"><div class="name">${x.name}</div><span class="badge ${x.verified?'v':'u'}">${x.verified?'Verified':'Unverified'}</span></div>
+    <div class="meta">${x.short}</div>
+    <div class="row" style="margin-top:8px"><div class="meta">${x.meta||''}</div><div class="rate">⭐ ${x.rating}</div></div>`;
+    el.appendChild(c);
   });
 }
-document.getElementById('addContact').addEventListener('click', ()=>{
-  const name = document.getElementById('contactName').value.trim();
-  const contact = document.getElementById('contactContact').value.trim();
-  const notes = document.getElementById('contactNotes').value.trim();
-  if(!name){ alert('Enter name'); return; }
-  const arr = loadClients(); arr.unshift({name,contact,notes,created:new Date().toISOString()}); saveClients(arr); renderClients(); document.getElementById('contactName').value='';document.getElementById('contactContact').value='';document.getElementById('contactNotes').value=''; updateStats();
-});
-document.getElementById('clientList').addEventListener('click', (e)=>{
-  const btn = e.target.closest('button'); if(!btn) return; const act = btn.dataset.act; const i = Number(btn.dataset.i);
-  const arr = loadClients();
-  if(act==='view'){ const c = arr[i]; alert(`Name: ${c.name}\nContact: ${c.contact}\nNotes: ${c.notes}`); }
-  if(act==='del'){ if(confirm('Delete this contact?')){ arr.splice(i,1); saveClients(arr); renderClients(); updateStats(); } }
-});
-document.getElementById('clearContacts').addEventListener('click', ()=>{ if(confirm('Clear all contacts?')){ localStorage.removeItem('clients'); renderClients(); updateStats(); } });
-
-/* ----------------- Link Analyzer (AllOrigins free proxy) ----------------- */
-document.getElementById('analyzeBtn').addEventListener('click', async ()=>{
-  const url = document.getElementById('anUrl').value.trim();
-  const resDiv = document.getElementById('anResult'); resDiv.innerHTML='Loading...';
-  if(!url){ resDiv.innerHTML='<div class="muted">Paste a valid URL.</div>'; return; }
-  try{
-    const api = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(url);
-    const txt = await fetch(api).then(r=>{
-      if(!r.ok) throw new Error('Fetch failed');
-      return r.text();
-    });
-    // parse title and meta
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(txt, 'text/html');
-    const title = doc.querySelector('meta[property="og:title"]')?.content || doc.querySelector('title')?.innerText || '';
-    const desc = doc.querySelector('meta[property="og:description"]')?.content || doc.querySelector('meta[name="description"]')?.content || '';
-    const img = doc.querySelector('meta[property="og:image"]')?.content || '';
-    resDiv.innerHTML = `<div style="display:flex;gap:10px;align-items:center"><div style="width:64px;height:64px;border-radius:6px;background:#0b1220;overflow:hidden">${img?'<img src="'+img+'" style="width:100%;height:100%;object-fit:cover">':''}</div><div><div style="font-weight:700">${escapeHtml(title)}</div><div class="muted" style="margin-top:6px">${escapeHtml(desc)}</div><div style="margin-top:6px"><a href="${url}" target="_blank" style="color:var(--accent)">${url}</a></div></div></div>`;
-  }catch(err){
-    resDiv.innerHTML = `<div class="muted">Failed to fetch. Some sites block proxies. You can paste a short summary manually.</div>`;
-  }
-});
-
-/* ----------------- Simple Dashboard Chart ----------------- */
-const ctx = document.getElementById('dashChart').getContext('2d');
-let dashChart = new Chart(ctx, {
-  type:'bar',
-  data:{labels:['Clients','Invoices'],datasets:[{label:'Count',data:[0,0],backgroundColor:['#6EE7B7','#ffd166']}]},
-  options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}
-});
-function updateStats(){
-  const clients = loadClients().length;
-  const invoices = JSON.parse(localStorage.getItem('invoices')||'[]').length;
-  document.getElementById('statClients').textContent = 'Clients: '+clients;
-  document.getElementById('statInvoices').textContent = 'Invoices: '+invoices;
-  dashChart.data.datasets[0].data = [clients,invoices];
-  dashChart.update();
-}
-
-/* ----------------- Jitsi Meet quick open ----------------- */
-document.getElementById('openJitsi').addEventListener('click', ()=>{
-  const room = 'PricingIQ-' + (Math.random().toString(36).slice(2,9));
-  const url = 'https://meet.jit.si/' + room;
-  window.open(url, '_blank');
-});
-
-/* ----------------- Save profile / load ----------------- */
-document.getElementById('saveProfile').addEventListener('click', ()=>{
-  const p = {skill:document.getElementById('skill').value,exp:document.getElementById('exp').value,country:document.getElementById('country').value};
-  localStorage.setItem('savedProfile', JSON.stringify(p));
-  alert('Profile saved locally');
-});
-document.getElementById('clearProfile').addEventListener('click', ()=>{ localStorage.removeItem('savedProfile'); alert('Profile cleared'); });
-
-/* ----------------- Load existing on start ----------------- */
-(function init(){
-  try{
-    const p = JSON.parse(localStorage.getItem('savedProfile')||'{}');
-    if(p.skill) document.getElementById('skill').value = p.skill;
-    if(p.exp) document.getElementById('exp').value = p.exp;
-    if(p.country) document.getElementById('country').value = p.country;
-  }catch(e){}
-  renderClients();
-  updateStats();
-})();
-
-function escapeHtml(s){ return (''+s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
 </script>
 </body>
 </html>
