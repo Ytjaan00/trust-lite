@@ -1,64 +1,84 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="hi">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>TrustMR‑Lite</title>
-  <meta name="description" content="Ultra‑light trust & reputation explorer (client‑side only)">
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Pricing IQ Lite</title>
   <style>
-    :root{
-      --bg:#0b0f14;--card:#121826;--text:#e6e9ef;--muted:#9aa3b2;--accent:#4f8cff;--ok:#22c55e;--warn:#f59e0b;
-    }
-    *{box-sizing:border-box}
-    body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Arial;background:var(--bg);color:var(--text)}
-    header{padding:16px 14px;border-bottom:1px solid #1f2937}
-    h1{margin:0;font-size:20px}
-    .wrap{max-width:980px;margin:0 auto;padding:14px}
-    .search{display:flex;gap:10px}
-    input{flex:1;padding:12px;border-radius:10px;border:1px solid #1f2937;background:#0e1420;color:var(--text)}
-    button{padding:12px 14px;border-radius:10px;border:0;background:var(--accent);color:#fff;font-weight:600}
-    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:14px}
-    .card{background:var(--card);border:1px solid #1f2937;border-radius:14px;padding:12px}
-    .row{display:flex;align-items:center;justify-content:space-between;gap:8px}
-    .name{font-weight:700}
-    .badge{font-size:12px;padding:4px 8px;border-radius:999px}
-    .v{background:rgba(34,197,94,.15);color:var(--ok)}
-    .u{background:rgba(245,158,11,.15);color:var(--warn)}
-    .meta{font-size:12px;color:var(--muted);margin-top:6px}
-    .rate{font-weight:700}
-    footer{opacity:.7;text-align:center;font-size:12px;padding:18px}
+    body{font-family:system-ui,Arial;background:#0b1220;color:#e6eef8;margin:0;padding:18px}
+    .box{max-width:720px;margin:0 auto;background:#0f1724;border-radius:12px;padding:16px;border:1px solid rgba(255,255,255,0.03)}
+    h1{color:#6EE7B7;margin:0 0 8px 0}
+    label{color:#9aa4b2;font-size:13px;margin-top:8px;display:block}
+    input,select{width:100%;padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.03);background:transparent;color:inherit;margin-top:6px}
+    .row{display:flex;gap:8px}
+    .btn{background:#ffd166;border:0;padding:10px 12px;border-radius:10px;color:#061018;font-weight:700;cursor:pointer}
+    .muted{color:#9aa4b2;font-size:13px}
+    .result{margin-top:12px;padding:10px;border-radius:10px;background:rgba(255,255,255,0.01)}
   </style>
 </head>
 <body>
-  <header class="wrap">
-    <h1>TrustMR‑Lite</h1>
-    <p style="margin:6px 0 0;color:var(--muted);font-size:13px">Instant trust signals • Zero backend • Phone‑friendly</p>
-  </header>
+  <div class="box">
+    <h1>Pricing IQ Lite</h1>
+    <div class="muted">फ्रीलांसर के लिए त्वरित प्राइस सुझाव — कोई अकाउंट नहीं, डाटा ब्राउज़र में</div>
 
-  <main class="wrap">
-    <div class="search">
-      <input id="q" placeholder="Search brand / project / startup" />
-      <button onclick="render()">Search</button>
+    <label>Service / Skill</label>
+    <input id="skill" placeholder="उदा. Web Design">
+
+    <label>Experience (साल)</label>
+    <input id="exp" type="number" value="1">
+
+    <div style="display:flex;gap:8px;margin-top:8px">
+      <div style="flex:1">
+        <label>Country</label>
+        <select id="country"><option value="IN">India (₹)</option><option value="US">USA ($)</option><option value="OTHER">Other ($)</option></select>
+      </div>
+      <div style="flex:1">
+        <label>Hours (est)</label>
+        <input id="hours" type="number" value="10">
+      </div>
     </div>
-    <section id="list" class="grid"></section>
-  </main>
 
-  <footer>Client‑side demo • Data from data.json</footer>
+    <div style="margin-top:10px">
+      <button class="btn" id="calc">Get Suggestion</button>
+    </div>
+
+    <div id="out" class="result" style="display:none">
+      <div id="text" style="font-weight:700"></div>
+      <div id="details" class="muted" style="margin-top:6px"></div>
+      <div style="margin-top:10px"><button class="btn" id="copy">Copy Proposal</button></div>
+    </div>
+  </div>
 
 <script>
-let DATA=[];
-fetch('data.json').then(r=>r.json()).then(d=>{DATA=d;render();});
-function render(){
-  const q=(document.getElementById('q').value||'').toLowerCase();
-  const el=document.getElementById('list'); el.innerHTML='';
-  DATA.filter(x=>x.name.toLowerCase().includes(q)).forEach(x=>{
-    const c=document.createElement('div'); c.className='card';
-    c.innerHTML=`<div class="row"><div class="name">${x.name}</div><span class="badge ${x.verified?'v':'u'}">${x.verified?'Verified':'Unverified'}</span></div>
-    <div class="meta">${x.short}</div>
-    <div class="row" style="margin-top:8px"><div class="meta">${x.meta||''}</div><div class="rate">⭐ ${x.rating}</div></div>`;
-    el.appendChild(c);
-  });
-}
+  const base = {IN:300,US:25,OTHER:10};
+  function num(v){return Number(v)||0;}
+  document.getElementById('calc').onclick = ()=>{
+    const skill = (document.getElementById('skill').value||'Service');
+    const exp = Math.max(0,num(document.getElementById('exp').value));
+    const country = document.getElementById('country').value;
+    const hours = Math.max(0,num(document.getElementById('hours').value));
+    let rate = Math.round(base[country] * (1 + Math.min(exp,10)*0.05));
+    // small skill tweak
+    const s = skill.toLowerCase();
+    if(s.includes('design')||s.includes('dev')) rate = Math.round(rate*1.2);
+    const total = rate * Math.max(1,hours);
+    const sym = country==='IN'?'₹': '$';
+    document.getElementById('out').style.display='block';
+    document.getElementById('text').textContent = `${sym}${rate} per hour — Est: ${sym}${total}`;
+    document.getElementById('details').textContent = `Suggestion based on experience ${exp} yrs · Skill: ${skill}`;
+    // save last
+    localStorage.setItem('pricing_last', JSON.stringify({skill,exp,country,hours,rate,total}));
+    // prepare proposal text
+    document.getElementById('copy').dataset.proposal = `Hi, I can deliver ${skill} at ${sym}${rate}/hr (est ${sym}${total}). Timeline: ___ days. Reply to start.`;
+  };
+
+  document.getElementById('copy').onclick = ()=>{
+    const p = document.getElementById('copy').dataset.proposal || '';
+    navigator.clipboard.writeText(p).then(()=>alert('Proposal copied'));
+  };
+
+  // load last if any
+  (function(){ try{ const l = JSON.parse(localStorage.getItem('pricing_last')||'null'); if(l){ document.getElementById('skill').value=l.skill; document.getElementById('exp').value=l.exp; document.getElementById('country').value=l.country; document.getElementById('hours').value=l.hours; } }catch(e){} })();
 </script>
 </body>
 </html>
